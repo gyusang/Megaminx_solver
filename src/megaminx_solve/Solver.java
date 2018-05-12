@@ -1,5 +1,6 @@
 package megaminx_solve;
 import megaminx_move.Megaminx;
+import java.util.Random;
 
 public class Solver {
 	int N; //number of chromosome
@@ -8,16 +9,16 @@ public class Solver {
 	int[][] genes;
 	int[][] next_genes;
 	int[] fitness;
-	Megaminx mover;
+	Random generator;
 	
 	public Solver(int N,int L, int[][] cube) {
 		this.N = N;
 		this.L = L;
 		this.cube = cube;
-		mover = new Megaminx();
 		fitness = new int[N];
 		next_genes = new int [N][L];
 		genes = new int [N][L];
+		generator = new Random();
 		//TODO randomize genes
 	}
 	
@@ -32,7 +33,7 @@ public class Solver {
 	public void make_fitness(){
 		int i;
 		for(i=0;i<N;i++) {
-			this.fitness[i] = mover.fitness_cal(cube,genes[i]);
+			this.fitness[i] = Megaminx.fitness_cal(cube,genes[i]);
 		}
 	}
 
