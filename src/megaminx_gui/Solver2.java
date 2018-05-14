@@ -121,18 +121,18 @@ public class Solver2 extends JFrame {
 		// ImageIcon(Inter.class.getResource("../images/megaminxframe.png")).getImage();
 		colors[0] = new Color(0,0,0);
 		//White Purple DarkYellow DarkBlue Red DarkGreen LightGreen Orange LightBlue LightYellow Pink Gray
-		colors[1] = Color.white;
-		colors[2] = new Color(0,0,0); //TODO purple
-		colors[3] = Color.yellow;
-		colors[4] = Color.blue;
-		colors[5] = Color.red;
-		colors[6] = new Color(0,0,0);//TODO darkgreen
-		colors[7] = Color.green; 
-		colors[8] = Color.orange;
-		colors[9] = Color.cyan;
-		colors[10] = new Color(0,0,0); //TODO lightyellow
-		colors[11] = Color.pink;
-		colors[12] = Color.gray;
+		colors[1] = new Color(255, 255, 255);
+		colors[2] = new Color(210,0,255); //TODO purple
+		colors[3] = new Color(246,255,0);
+		colors[4] = new Color(6,0,255);;
+		colors[5] = new Color(255,0,0);
+		colors[6] = new Color(0,255,6);//TODO darkgreen
+		colors[7] = new Color(107,255,110); 
+		colors[8] = new Color(255,127,0);
+		colors[9] = new Color(0,246,255);
+		colors[10] = new Color(249,228,170); //TODO lightyellow
+		colors[11] = new Color(246,21,138);
+		colors[12] = new Color(132,132,132);
 	}
 
 }
