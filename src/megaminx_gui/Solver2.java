@@ -2,278 +2,96 @@ package megaminx_gui;
 
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Polygon;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
-import megaminx_solve.Solver;
+public class Solver2 extends JFrame {
+	private int radius = 85;
 
-public class Solver2 extends JFrame{
-	
-	
+	private static final long serialVersionUID = -3119930909029998588L;
 	private Image ScreenImage;
 	private Graphics ScreenGraphic;
-	
+
 	private Image Background;
-	private Image Minxframe;
-	private Image Minxpieceupside1side1;
-	private Image Minxpieceupside1side2;
-	private Image Minxpieceupside1side3;
-	private Image Minxpieceupside1side4;
-	private Image Minxpieceupside1side5;
-	private Image Minxpieceupside1side6;
-	private Image Minxpieceupside1side7;
-	private Image Minxpieceupside1side8;
-	private Image Minxpieceupside1side9;
-	private Image Minxpieceupside1side10;
-	private Image Minxpieceupside1side11;
-	private Image Minxpieceupside1side12;
-	private Image Minxpieceupside2side1;
-	private Image Minxpieceupside2side2;
-	private Image Minxpieceupside2side3;
-	private Image Minxpieceupside2side4;
-	private Image Minxpieceupside2side5;
-	private Image Minxpieceupside2side6;
-	private Image Minxpieceupside2side7;
-	private Image Minxpieceupside2side8;
-	private Image Minxpieceupside2side9;
-	private Image Minxpieceupside2side10;
-	private Image Minxpieceupside2side11;
-	private Image Minxpieceupside2side12;
-	private Image Minxpieceupside3side1;
-	private Image Minxpieceupside3side2;
-	private Image Minxpieceupside3side3;
-	private Image Minxpieceupside3side4;
-	private Image Minxpieceupside3side5;
-	private Image Minxpieceupside3side6;
-	private Image Minxpieceupside3side7;
-	private Image Minxpieceupside3side8;
-	private Image Minxpieceupside3side9;
-	private Image Minxpieceupside3side10;
-	private Image Minxpieceupside3side11;
-	private Image Minxpieceupside3side12;
-	private Image Minxpieceupside4side1;
-	private Image Minxpieceupside4side2;
-	private Image Minxpieceupside4side3;
-	private Image Minxpieceupside4side4;
-	private Image Minxpieceupside4side5;
-	private Image Minxpieceupside4side6;
-	private Image Minxpieceupside4side7;
-	private Image Minxpieceupside4side8;
-	private Image Minxpieceupside4side9;
-	private Image Minxpieceupside4side10;
-	private Image Minxpieceupside4side11;
-	private Image Minxpieceupside4side12;
-	private Image Minxpieceupside5side1;
-	private Image Minxpieceupside5side2;
-	private Image Minxpieceupside51side3;
-	private Image Minxpieceupside5side4;
-	private Image Minxpieceupside5side5;
-	private Image Minxpieceupside5side6;
-	private Image Minxpieceupside5side7;
-	private Image Minxpieceupside5side8;
-	private Image Minxpieceupside5side9;
-	private Image Minxpieceupside5side10;
-	private Image Minxpieceupside5side11;
-	private Image Minxpieceupside5side12;
-	private Image Minxpieceupside6side1;
-	private Image Minxpieceupside6side2;
-	private Image Minxpieceupside6side3;
-	private Image Minxpieceupside6side4;
-	private Image Minxpieceupside6side5;
-	private Image Minxpieceupside6side6;
-	private Image Minxpieceupside6side7;
-	private Image Minxpieceupside6side8;
-	private Image Minxpieceupside6side9;
-	private Image Minxpieceupside6side10;
-	private Image Minxpieceupside6side11;
-	private Image Minxpieceupside6side12;
-	private Image Minxpieceupside7side1;
-	private Image Minxpieceupside7side2;
-	private Image Minxpieceupside7side3;
-	private Image Minxpieceupside7side4;
-	private Image Minxpieceupside7side5;
-	private Image Minxpieceupside7side6;
-	private Image Minxpieceupside7side7;
-	private Image Minxpieceupside7side8;
-	private Image Minxpieceupside7side9;
-	private Image Minxpieceupside7side10;
-	private Image Minxpieceupside7side11;
-	private Image Minxpieceupside7side12;
-	private Image Minxpieceupside8side1;
-	private Image Minxpieceupside8side2;
-	private Image Minxpieceupside8side3;
-	private Image Minxpieceupside8side4;
-	private Image Minxpieceupside8side5;
-	private Image Minxpieceupside8side6;
-	private Image Minxpieceupside8side7;
-	private Image Minxpieceupside8side8;
-	private Image Minxpieceupside8side9;
-	private Image Minxpieceupside8side10;
-	private Image Minxpieceupside8side11;
-	private Image Minxpieceupside8side12;
-	private Image Minxpieceupside9side1;
-	private Image Minxpieceupside9side2;
-	private Image Minxpieceupside9side3;
-	private Image Minxpieceupside9side4;
-	private Image Minxpieceupside9side5;
-	private Image Minxpieceupside9side6;
-	private Image Minxpieceupside9side7;
-	private Image Minxpieceupside9side8;
-	private Image Minxpieceupside9side9;
-	private Image Minxpieceupside9side10;
-	private Image Minxpieceupside9side11;
-	private Image Minxpieceupside9side12;
-	private Image Minxpieceupside10side1;
-	private Image Minxpieceupside10side2;
-	private Image Minxpieceupside10side3;
-	private Image Minxpieceupside10side4;
-	private Image Minxpieceupside10side5;
-	private Image Minxpieceupside10side6;
-	private Image Minxpieceupside10side7;
-	private Image Minxpieceupside10side8;
-	private Image Minxpieceupside10side9;
-	private Image Minxpieceupside10side10;
-	private Image Minxpieceupside10side11;
-	private Image Minxpieceupside10side12;
-	
-	private Image Minxpiecedownside1side1;
-	private Image Minxpiecedownside1side2;
-	private Image Minxpiecedownside1side3;
-	private Image Minxpiecedownside1side4;
-	private Image Minxpiecedownside1side5;
-	private Image Minxpiecedownside1side6;
-	private Image Minxpiecedownside1side7;
-	private Image Minxpiecedownside1side8;
-	private Image Minxpiecedownside1side9;
-	private Image Minxpiecedownside1side10;
-	private Image Minxpiecedownside1side11;
-	private Image Minxpiecedownside1side12;
-	private Image Minxpiecedownside2side1;
-	private Image Minxpiecedownside2side2;
-	private Image Minxpiecedownside2side3;
-	private Image Minxpiecedownside2side4;
-	private Image Minxpiecedownside2side5;
-	private Image Minxpiecedownside2side6;
-	private Image Minxpiecedownside2side7;
-	private Image Minxpiecedownside2side8;
-	private Image Minxpiecedownside2side9;
-	private Image Minxpiecedownside2side10;
-	private Image Minxpiecedownside2side11;
-	private Image Minxpiecedownside2side12;
-	private Image Minxpiecedownside3side1;
-	private Image Minxpiecedownside3side2;
-	private Image Minxpiecedownside3side3;
-	private Image Minxpiecedownside3side4;
-	private Image Minxpiecedownside3side5;
-	private Image Minxpiecedownside3side6;
-	private Image Minxpiecedownside3side7;
-	private Image Minxpiecedownside3side8;
-	private Image Minxpiecedownside3side9;
-	private Image Minxpiecedownside3side10;
-	private Image Minxpiecedownside3side11;
-	private Image Minxpiecedownside3side12;
-	private Image Minxpiecedownside4side1;
-	private Image Minxpiecedownside4side2;
-	private Image Minxpiecedownside4side3;
-	private Image Minxpiecedownside4side4;
-	private Image Minxpiecedownside4side5;
-	private Image Minxpiecedownside4side6;
-	private Image Minxpiecedownside4side7;
-	private Image Minxpiecedownside4side8;
-	private Image Minxpiecedownside4side9;
-	private Image Minxpiecedownside4side10;
-	private Image Minxpiecedownside4side11;
-	private Image Minxpiecedownside4side12;
-	private Image Minxpiecedownside5side1;
-	private Image Minxpiecedownside5side2;
-	private Image Minxpiecedownside51side3;
-	private Image Minxpiecedownside5side4;
-	private Image Minxpiecedownside5side5;
-	private Image Minxpiecedownside5side6;
-	private Image Minxpiecedownside5side7;
-	private Image Minxpiecedownside5side8;
-	private Image Minxpiecedownside5side9;
-	private Image Minxpiecedownside5side10;
-	private Image Minxpiecedownside5side11;
-	private Image Minxpiecedownside5side12;
-	private Image Minxpiecedownside6side1;
-	private Image Minxpiecedownside6side2;
-	private Image Minxpiecedownside6side3;
-	private Image Minxpiecedownside6side4;
-	private Image Minxpiecedownside6side5;
-	private Image Minxpiecedownside6side6;
-	private Image Minxpiecedownside6side7;
-	private Image Minxpiecedownside6side8;
-	private Image Minxpiecedownside6side9;
-	private Image Minxpiecedownside6side10;
-	private Image Minxpiecedownside6side11;
-	private Image Minxpiecedownside6side12;
-	private Image Minxpiecedownside7side1;
-	private Image Minxpiecedownside7side2;
-	private Image Minxpiecedownside7side3;
-	private Image Minxpiecedownside7side4;
-	private Image Minxpiecedownside7side5;
-	private Image Minxpiecedownside7side6;
-	private Image Minxpiecedownside7side7;
-	private Image Minxpiecedownside7side8;
-	private Image Minxpiecedownside7side9;
-	private Image Minxpiecedownside7side10;
-	private Image Minxpiecedownside7side11;
-	private Image Minxpiecedownside7side12;
-	private Image Minxpiecedownside8side1;
-	private Image Minxpiecedownside8side2;
-	private Image Minxpiecedownside8side3;
-	private Image Minxpiecedownside8side4;
-	private Image Minxpiecedownside8side5;
-	private Image Minxpiecedownside8side6;
-	private Image Minxpiecedownside8side7;
-	private Image Minxpiecedownside8side8;
-	private Image Minxpiecedownside8side9;
-	private Image Minxpiecedownside8side10;
-	private Image Minxpiecedownside8side11;
-	private Image Minxpiecedownside8side12;
-	private Image Minxpiecedownside9side1;
-	private Image Minxpiecedownside9side2;
-	private Image Minxpiecedownside9side3;
-	private Image Minxpiecedownside9side4;
-	private Image Minxpiecedownside9side5;
-	private Image Minxpiecedownside9side6;
-	private Image Minxpiecedownside9side7;
-	private Image Minxpiecedownside9side8;
-	private Image Minxpiecedownside9side9;
-	private Image Minxpiecedownside9side10;
-	private Image Minxpiecedownside9side11;
-	private Image Minxpiecedownside9side12;
-	private Image Minxpiecedownside10side1;
-	private Image Minxpiecedownside10side2;
-	private Image Minxpiecedownside10side3;
-	private Image Minxpiecedownside10side4;
-	private Image Minxpiecedownside10side5;
-	private Image Minxpiecedownside10side6;
-	private Image Minxpiecedownside10side7;
-	private Image Minxpiecedownside10side8;
-	private Image Minxpiecedownside10side9;
-	private Image Minxpiecedownside10side10;
-	private Image Minxpiecedownside10side11;
-	private Image Minxpiecedownside10side12;
-	
-	public void paint (Graphics g) {
+	// private Image Minxframe;
+	private Image[][] Minxpiece_up = new Image[13][10];
+	private Image[][] Minxpiece_down = new Image[13][10];
+	// private int xpoints[] = {5,100,100,5,5};
+	// private int ypoints[] = {5,5,100,100,5};
+	// private int npoints = 5;
+
+	public void paint(Graphics g) {
 		ScreenImage = createImage(Inter.SCREEN_WIDTH, Inter.SCREEN_HEIGHT);
 		ScreenGraphic = ScreenImage.getGraphics();
 		screenDraw(ScreenGraphic);
 		g.drawImage(ScreenImage, 0, 0, null);
 	}
-	
+
 	public void screenDraw(Graphics g) {
 		g.drawImage(Background, 0, 0, null);
-		g.drawImage(Minxframe, 0, 0, null);
-		if([] []) = (1 1) {
-			g.drawImage(Minxpieceupside1side1, 0, 0, null);
-		}
+		// g.drawImage(Minxframe, 0, 0, null);
+		// if(int [][] cube = 1 1 cube) {
+		// g.drawImage(Minxpiece_up[1][], 0, 0, null);
+		// };
+
+		int radius = 85;
+		int centerX = 500;
+		int centerY = 300;
+		double R = radius * Math.cos(Math.PI / 5);
+		Polygon frames[] = new Polygon[6];
+		for(int i=0;i<6;i++)
+			frames[i] = new Polygon();
+		for (int j = 0; j < 5; j++)
+			frames[5].addPoint((int) (centerX - radius * Math.sin(2 * j * Math.PI / 5)),
+					(int) (centerY - radius * Math.cos(2 * j * Math.PI / 5)));
+		for (int i = 0; i < 5; i++)
+			for(int j = 0;j < 5; j++)
+			frames[i].addPoint((int) (centerX - R * Math.sin(2 * i * Math.PI / 5)-radius*Math.sin(2*(i+j)*Math.PI/5)),
+					(int) (centerY + R * Math.cos(2 * i * Math.PI / 5)+radius*Math.cos(2*(i+j)*Math.PI/5)));
+		
+		for(int i=0;i<6;i++)
+			g.fillPolygon(frames[i]);
+		// Polygon p = new Polygon();
+		// for (int i = 0; i < 5; i++)
+		// p.addPoint((int) (680 + 85 * Math.sin(i * 2 * Math.PI / 5)),
+		// (int) (244 - 85 * Math.cos(i * 2 * Math.PI / 5)));
+
+		// g.drawPolygon(p);
+
+		// Polygon q = new Polygon();
+		// for (int i = 0; i < 5; i++)
+		// q.addPoint((int) (762 + 85 * Math.sin(i * 2 * Math.PI / 5)),
+		// (int) (130 + 85 * Math.cos(i * 2 * Math.PI / 5)));
+
+		// g.drawPolygon(q);
+
+		// Polygon r = new Polygon();
+		// for (int i = 0; i < 5; i++)
+		// r.addPoint((int) (597 + 85 * Math.sin(i * 2 * Math.PI / 5)),
+		// (int) (130 + 85 * Math.cos(i * 2 * Math.PI / 5)));
+
+		// g.drawPolygon(r);
+
+		// int[] xp1 = {245, 273, 300, 273};
+		// int[] yp1 = {85, 65, 85, 105};
+
+		// g.fillPolygon(xp1, yp1, xp1.length);
+
+		// int[] xp2 = {150, 168, 140, 168};
+		// int[] yp2 = {165, 145, 165, 185};
+
+		// g.fillPolygon(xp2, yp2, xp2.length);
+
+		// int[] xp3 = {130, 170, 100};
+		// int[] yp3 = {50, 90, 120};
+
+		// g.fillPolygon(xp3, yp3, xp3.length);
+
 		this.repaint();
 	}
-	
+
 	public Solver2() {
 		setTitle("Megaminx Solver v1 by MolotovCocktail");
 		setSize(Inter.SCREEN_WIDTH, Inter.SCREEN_HEIGHT);
@@ -281,12 +99,15 @@ public class Solver2 extends JFrame{
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
-	
-		Background = new ImageIcon(Inter.class.getResource("../images/Background.png")).getImage();	
-		Minxframe = new ImageIcon(Inter.class.getResource("../images/megaminxframe.png")).getImage();	
-		
 
-		
+		Background = new ImageIcon(Inter.class.getResource("../images/Background.png")).getImage();
+		// Minxframe = new
+		// ImageIcon(Inter.class.getResource("../images/megaminxframe.png")).getImage();
+
 	}
-	
+
 }
+
+/**
+ * 
+ */
