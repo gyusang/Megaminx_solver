@@ -131,14 +131,14 @@ public class Solver2 extends JFrame {
 		this.repaint();
 	}
 
-	public Solver2() {
-		setTitle("Megaminx Solver v1 by MolotovCocktail");
-		setSize(Inter.SCREEN_WIDTH, Inter.SCREEN_HEIGHT);
+	public Solver2(int SCREEN_WIDTH,int SCREEN_HEIGHT, int RADIUS) {
+		setTitle("Megaminx Solver v1 by MolotovCocktail and Sanggyu Lee");
+		setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 		setResizable(false);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
-		radius = Inter.RADIUS;
+		radius = RADIUS;
 		Background = new ImageIcon(Inter.class.getResource("../images/Background.png")).getImage();
 		
 		// ImageIcon(Inter.class.getResource("../images/megaminxframe.png")).getImage();
@@ -157,7 +157,10 @@ public class Solver2 extends JFrame {
 		colors[11] = new Color(246,21,138);
 		colors[12] = new Color(132,132,132);
 	}
-
+	
+	public Solver2() {
+		this(Inter.SCREEN_WIDTH,Inter.SCREEN_HEIGHT,Inter.RADIUS);
+	}
 }
 
 /**

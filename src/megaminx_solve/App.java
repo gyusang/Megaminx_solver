@@ -1,17 +1,22 @@
 package megaminx_solve;
 import megaminx_move.Megaminx;
+import megaminx_gui.Solver2;
 import java.util.Random;
+
 
 public class App {
 
 	public static void main(String[] args) {
+		final int SCREEN_WIDTH = 1280;
+		final int SCREEN_HEIGHT = 720;
+		final int RADIUS = 100;
+		
 		int N=100; //number of chromosome
 		int L=200; //length of one chromosome
 
-		int i,j,fit,cnt=0;
+		int i,j;
 		int[] moves = new int[20];
 		int[][] cube = new int [13][10];
-		int[] faces = {0};
 		Random generator = new Random();
 
 		for(j=0;j<10;j++)
@@ -35,8 +40,11 @@ public class App {
 			System.out.print(+solver.fitness[i]+" ");
 		
 		System.out.println();
-	
-/*		for(j=0;j<100;j++) { //permorders for 100 random L length moves
+		new Solver2(SCREEN_WIDTH,SCREEN_HEIGHT,RADIUS);
+/*
+  		int fit,cnt=0;
+  		int[] faces = {0};
+  		for(j=0;j<100;j++) { //permorders for 100 random L length moves
 			cnt=0;
 		System.out.print("rotations : ");
 		for(i=0;i<L;i++) {

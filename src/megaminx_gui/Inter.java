@@ -8,7 +8,7 @@ public class Inter {
 	
 	public static void main(String[] args) {
 		
-		new Solver2();
+		new Solver2(SCREEN_WIDTH,SCREEN_HEIGHT,RADIUS);
 		
 	}
 
