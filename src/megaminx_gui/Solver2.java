@@ -30,45 +30,68 @@ public class Solver2 extends JFrame {
 		g.drawImage(Background, 0, 0, null);	
 		
 		double R = 2 * radius * Math.cos(Math.PI / 5);
-		double r = radius*Math.cos(0);
+		double r = radius*3/7;
 		int centerX = (int) Math.round(2 * R);
 		int centerY = (int) Math.round(2 * R);
 		Polygon frames[] = new Polygon[13];
-		for (int i = 1; i <= 12; i++)
+		Polygon in_frames[] = new Polygon[13];
+		for (int i = 1; i <= 12; i++) {
 			frames[i] = new Polygon();
+			in_frames[i] = new Polygon();
+		}
 
-		for (int j = 0; j < 5; j++)
+		for (int j = 0; j < 5; j++) {
 			frames[1].addPoint((int) (centerX - radius * Math.sin(2 * j * Math.PI / 5)),
 					(int) (centerY + radius * Math.cos(2 * j * Math.PI / 5)));
-
+			in_frames[1].addPoint((int) (centerX - r * Math.sin(2 * j * Math.PI / 5)),
+					(int) (centerY + r * Math.cos(2 * j * Math.PI / 5)));
+		}
 		for (int i = 0; i < 5; i++)
-			for (int j = 0; j < 5; j++)
+			for (int j = 0; j < 5; j++) {
 				frames[6-i].addPoint(
 						(int) (centerX - R * Math.sin(2 * i * Math.PI / 5)
 								- radius * Math.sin(2 * (i + j) * Math.PI / 5)),
 						(int) (centerY - R * Math.cos(2 * i * Math.PI / 5)
 								- radius * Math.cos(2 * (i + j) * Math.PI / 5)));
+				in_frames[6-i].addPoint(
+						(int) (centerX - R * Math.sin(2 * i * Math.PI / 5)
+								- r * Math.sin(2 * (i + j) * Math.PI / 5)),
+						(int) (centerY - R * Math.cos(2 * i * Math.PI / 5)
+								- r * Math.cos(2 * (i + j) * Math.PI / 5)));
+			}
 		centerX += 3 * R * Math.sin(3 * Math.PI / 5);
 		centerY += -R * Math.cos(2 * Math.PI / 5);
-		for (int j = 0; j < 5; j++)
+		for (int j = 0; j < 5; j++) {
 			frames[12].addPoint((int) (centerX - radius * Math.sin(2 * j * Math.PI / 5)),
 					(int) (centerY - radius * Math.cos(2 * j * Math.PI / 5)));
+			in_frames[12].addPoint((int) (centerX - r * Math.sin(2 * j * Math.PI / 5)),
+					(int) (centerY - r * Math.cos(2 * j * Math.PI / 5)));
+		}
 
 		for (int i = 0; i < 5; i++)
-			for (int j = 0; j < 5; j++)
+			for (int j = 0; j < 5; j++) {
 				frames[7 + i].addPoint(
 						(int) (centerX - R * Math.sin(2 * i * Math.PI / 5)
 								- radius * Math.sin(2 * (i + j) * Math.PI / 5)),
 						(int) (centerY + R * Math.cos(2 * i * Math.PI / 5)
 								+ radius * Math.cos(2 * (i + j) * Math.PI / 5)));
+				in_frames[7 + i].addPoint(
+						(int) (centerX - R * Math.sin(2 * i * Math.PI / 5)
+								- r * Math.sin(2 * (i + j) * Math.PI / 5)),
+						(int) (centerY + R * Math.cos(2 * i * Math.PI / 5)
+								+ r * Math.cos(2 * (i + j) * Math.PI / 5)));
+			}
 
 		for (int i = 1; i <= 12; i++) {
-//			g.setColor(colors[0]);
-//			g.drawPolygon(frames[i]);
-			g.setColor(colors[i]);
+			g.setColor(colors[1]);
 			g.fillPolygon(frames[i]);
+			g.setColor(colors[i]);
+			g.fillPolygon(in_frames[i]);
 		}
-		
+		for (int i = 1; i <= 12; i++) {
+			g.setColor(colors[0]);
+			g.drawPolygon(frames[i]);
+		}
 		// Polygon p = new Polygon();
 		// for (int i = 0; i < 5; i++)
 		// p.addPoint((int) (680 + 85 * Math.sin(i * 2 * Math.PI / 5)),
