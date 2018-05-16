@@ -41,7 +41,7 @@ public class App {
 			System.out.print(+solver.fitness[i]+" ");
 		
 		System.out.println();
-		new Solver2(SCREEN_WIDTH,SCREEN_HEIGHT,RADIUS,RATIO);
+		new Solver2(SCREEN_WIDTH,SCREEN_HEIGHT,RADIUS,RATIO,cube);
 /*
   		int fit,cnt=0;
   		int[] faces = {0};
