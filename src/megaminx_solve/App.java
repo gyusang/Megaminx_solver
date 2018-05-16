@@ -40,7 +40,8 @@ public class App {
 			System.out.print(+solver.fitness[i]+" ");
 		
 		System.out.println();
-		new Solver2(SCREEN_WIDTH,SCREEN_HEIGHT,RADIUS,cube);
+		Solver2 slv = new Solver2(SCREEN_WIDTH,SCREEN_HEIGHT,RADIUS,cube);
+		slv.updateCube(cube);
 /*
   		int fit,cnt=0;
   		int[] faces = {0};

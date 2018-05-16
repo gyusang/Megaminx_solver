@@ -64,9 +64,16 @@ public class Solver2 extends JFrame {
 			public void mouseClicked(MouseEvent me) {
 				super.mouseClicked(me);
 				for(int i=1;i<=12;i++) {
+					int direction;
+					if(me.getButton()==MouseEvent.BUTTON1)
+						direction = 1;
+					else if(me.getButton()==MouseEvent.BUTTON3)
+						direction = -1;
+					else
+						direction = 0;
 					if(center[i].contains(me.getPoint())) {
-						rotateCube(i);
-						System.out.print(i+" ");
+						rotateCube(direction*i);
+						System.out.print(direction*i+" ");
 					}
 				}
 				
@@ -119,6 +126,11 @@ public class Solver2 extends JFrame {
 	public void rotateCube(int face) {
 		int[] faces = {face};
 		cube = Megaminx.rotate(cube, faces);
+		this.repaint();
+	}
+	
+	public void updateCube(int [][] cube) {
+		System.arraycopy(cube, 0, this.cube, 0, cube.length);
 		this.repaint();
 	}
 	
