@@ -43,6 +43,7 @@ public class Solver2 extends JFrame {
 		System.arraycopy(cube, 0, this.cube, 0, cube.length);
 		this.SCREEN_WIDTH = SCREEN_WIDTH;
 		this.SCREEN_HEIGHT = SCREEN_HEIGHT;
+		this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
 		init_cube(RADIUS,0.4);
 		
 		Background = new ImageIcon(Inter.class.getResource("../images/Background.png")).getImage();
@@ -63,17 +64,20 @@ public class Solver2 extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent me) {
 				super.mouseClicked(me);
+				int direction, btn = me.getButton();
+				if(btn==MouseEvent.BUTTON1)
+					direction = 1;
+				else if(btn==MouseEvent.BUTTON3)
+					direction = -1;
+				else {
+					direction = 0;
+					return;
+				}
 				for(int i=1;i<=12;i++) {
-					int direction;
-					if(me.getButton()==MouseEvent.BUTTON1)
-						direction = 1;
-					else if(me.getButton()==MouseEvent.BUTTON3)
-						direction = -1;
-					else
-						direction = 0;
 					if(center[i].contains(me.getPoint())) {
 						rotateCube(direction*i);
 						System.out.print(direction*i+" ");
+						break;
 					}
 				}
 				
@@ -83,6 +87,7 @@ public class Solver2 extends JFrame {
 		p.setSize(new Dimension(SCREEN_WIDTH,SCREEN_HEIGHT));
 		p.addMouseListener(ma);
 		add(p);
+		pack();
 		setVisible(true);
 	}
 
