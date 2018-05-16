@@ -1,26 +1,41 @@
 package megaminx_gui;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Polygon;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+import megaminx_move.Megaminx;
 
 public class Solver2 extends JFrame {
 	private static final long serialVersionUID = -3119930909029998588L;
-
+	
 	int radius, centerX, centerY;
 	double ratio, R, r;
 	private Image ScreenImage;
 	private Graphics ScreenGraphic;
-	private Image Background;
-
+	private Image Background;	
+	private JPanel panel;
+	
 	Color[] colors = new Color[13];
+	JButton[] button = new JButton[13];
 	int[][][] in_coord = new int[13][2][5]; // (face no. 1 to 12) (x or y => x:0, y:1) (five coords)
 	int[][][] out_coord = new int[13][2][15];
 	int[][] cube = new int[13][10];
 	Polygon frames[] = new Polygon[13];
 	Polygon center[] = new Polygon[13];
 	Polygon blocks[][] = new Polygon[13][10];
+	
+	PolygonButton[] center_btn = new PolygonButton[13];
 
 	@Override
 	public void paint(Graphics g) {
@@ -168,12 +183,29 @@ public class Solver2 extends JFrame {
 		setResizable(false);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		panel = new JPanel();
+		for(i=1;i<=12;i++) {
+			center_btn[i] = new PolygonButton(i+"",center[i]);
+			
+			center_btn[i].addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					rotateCube(Integer.parseInt(((JButton)e.getSource()).getText()));
+				}
+			});
+			panel.add(center_btn[i]);
+		}
+		this.add(panel);
 		setVisible(true);
-
 	}
 
 	public Solver2() {
 		this(Inter.SCREEN_WIDTH, Inter.SCREEN_HEIGHT, Inter.RADIUS, Inter.RATIO, Inter.cube);
+	}
+	
+	public void rotateCube(int face) {
+		int[] faces = {face};
+		cube = Megaminx.rotate(cube, faces);
+		this.repaint();
 	}
 }
 
