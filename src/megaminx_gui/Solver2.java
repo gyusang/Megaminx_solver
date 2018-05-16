@@ -2,12 +2,13 @@ package megaminx_gui;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Polygon;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -17,14 +18,14 @@ import javax.swing.JPanel;
 import megaminx_move.Megaminx;
 
 public class Solver2 extends JFrame {
-	private static final long serialVersionUID = -3119930909029998588L;
 	
+	private static final long serialVersionUID = 8308296838677592403L;
 	int radius, centerX, centerY;
 	double ratio, R, r;
 	private Image ScreenImage;
 	private Graphics ScreenGraphic;
 	private Image Background;	
-	private JPanel panel;
+	private int SCREEN_WIDTH, SCREEN_HEIGHT;
 	
 	Color[] colors = new Color[13];
 	JButton[] button = new JButton[13];
@@ -36,10 +37,56 @@ public class Solver2 extends JFrame {
 	Polygon blocks[][] = new Polygon[13][10];
 	
 	PolygonButton[] center_btn = new PolygonButton[13];
+	
+	public Solver2(final int SCREEN_WIDTH, final int SCREEN_HEIGHT, final int RADIUS, int[][] cube) {
+		super("Megaminx Solver v1 by MolotovCocktail and Sanggyu Lee");
+		System.arraycopy(cube, 0, this.cube, 0, cube.length);
+		this.SCREEN_WIDTH = SCREEN_WIDTH;
+		this.SCREEN_HEIGHT = SCREEN_HEIGHT;
+		init_cube(RADIUS,0.4);
+		
+		Background = new ImageIcon(Inter.class.getResource("../images/Background.png")).getImage();
+
+		setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+		setResizable(false);
+		setLocationRelativeTo(null);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		JPanel p = new JPanel() {
+			private static final long serialVersionUID = -2714800288365993880L;
+
+			@Override
+			public Dimension getPreferredSize() {
+				return new Dimension(SCREEN_WIDTH,SCREEN_HEIGHT);
+			}
+		};
+		MouseAdapter ma = new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent me) {
+				super.mouseClicked(me);
+				for(int i=1;i<=12;i++) {
+					if(center[i].contains(me.getPoint())) {
+						rotateCube(i);
+						System.out.print(i+" ");
+					}
+				}
+				
+			}
+		};
+		p.setBounds(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+		p.setSize(new Dimension(SCREEN_WIDTH,SCREEN_HEIGHT));
+		p.addMouseListener(ma);
+		add(p);
+		setVisible(true);
+	}
+
+	public Solver2() {
+		this(Inter.SCREEN_WIDTH, Inter.SCREEN_HEIGHT, Inter.RADIUS, Inter.cube);
+	}
 
 	@Override
 	public void paint(Graphics g) {
-		ScreenImage = createImage(Inter.SCREEN_WIDTH, Inter.SCREEN_HEIGHT);
+//		super.paint(g);
+		ScreenImage = createImage(SCREEN_WIDTH, SCREEN_HEIGHT);
 		ScreenGraphic = ScreenImage.getGraphics();
 		screenDraw(ScreenGraphic);
 		g.drawImage(ScreenImage, 0, 0, null);
@@ -48,7 +95,6 @@ public class Solver2 extends JFrame {
 	public void screenDraw(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 		g.drawImage(Background, 0, 0, null);
-
 		for (int i = 1; i <= 12; i++) {
 			g.setColor(colors[i]);
 			g.fillPolygon(center[i]);
@@ -70,17 +116,20 @@ public class Solver2 extends JFrame {
 		// this.repaint();
 	}
 
-	public Solver2(int SCREEN_WIDTH, int SCREEN_HEIGHT, int RADIUS, double RATIO, int[][] cube) {
-		System.arraycopy(cube, 0, this.cube, 0, cube.length);
+	public void rotateCube(int face) {
+		int[] faces = {face};
+		cube = Megaminx.rotate(cube, faces);
+		this.repaint();
+	}
+	
+	private void init_cube(int RADIUS, double RATIO) {
 		double p = Math.tan(Math.PI*3/10)/Math.tan(Math.PI*2/5);
 		radius = RADIUS;
 		if (RATIO > 1)
 			RATIO = 1;
 		else if (RATIO < p/(1+p))
-			RATIO = p/(1+p);
+			RATIO = (int)Math.round(p/(1+p));
 		ratio = RATIO;
-		Background = new ImageIcon(Inter.class.getResource("../images/Background.png")).getImage();
-
 		int diff[] = { 0, 4, 3, 4, 0, 1, 2, 4, 0, 1, 2, 3, 2 };
 		colors[0] = new Color(0, 0, 0);
 		// White Purple DarkYellow DarkBlue Red DarkGreen LightGreen Orange LightBlue
@@ -177,38 +226,6 @@ public class Solver2 extends JFrame {
 				blocks[i][2 * j + 1].addPoint(in_coord[i][0][j], in_coord[i][1][j]);
 			}
 		}
-
-		setTitle("Megaminx Solver v1 by MolotovCocktail and Sanggyu Lee");
-		setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
-		setResizable(false);
-		setLocationRelativeTo(null);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		panel = new JPanel();
-		for(i=1;i<=12;i++) {
-			center_btn[i] = new PolygonButton(i+"",center[i]);
-			
-			center_btn[i].addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					rotateCube(Integer.parseInt(((JButton)e.getSource()).getText()));
-				}
-			});
-			panel.add(center_btn[i]);
-		}
-		this.add(panel);
-		setVisible(true);
 	}
 
-	public Solver2() {
-		this(Inter.SCREEN_WIDTH, Inter.SCREEN_HEIGHT, Inter.RADIUS, Inter.RATIO, Inter.cube);
-	}
-	
-	public void rotateCube(int face) {
-		int[] faces = {face};
-		cube = Megaminx.rotate(cube, faces);
-		this.repaint();
-	}
 }
-
-/**
- * 
- */
