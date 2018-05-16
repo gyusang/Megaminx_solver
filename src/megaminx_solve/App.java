@@ -10,6 +10,7 @@ public class App {
 		final int SCREEN_WIDTH = 1280;
 		final int SCREEN_HEIGHT = 720;
 		final int RADIUS = 100;
+		final double RATIO = 3.0/7.0;
 		
 		int N=100; //number of chromosome
 		int L=200; //length of one chromosome
@@ -40,7 +41,7 @@ public class App {
 			System.out.print(+solver.fitness[i]+" ");
 		
 		System.out.println();
-		new Solver2(SCREEN_WIDTH,SCREEN_HEIGHT,RADIUS);
+		new Solver2(SCREEN_WIDTH,SCREEN_HEIGHT,RADIUS,RATIO);
 /*
   		int fit,cnt=0;
   		int[] faces = {0};

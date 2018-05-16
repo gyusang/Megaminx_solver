@@ -5,10 +5,11 @@ public class Inter {
 	public static final int SCREEN_WIDTH = 1280;
 	public static final int SCREEN_HEIGHT = 720;
 	public static final int RADIUS = 100;
+	public static final double RATIO = 3.0/7.0;
 	
 	public static void main(String[] args) {
 		
-		new Solver2(SCREEN_WIDTH,SCREEN_HEIGHT,RADIUS);
+		new Solver2(SCREEN_WIDTH,SCREEN_HEIGHT,RADIUS,RATIO);
 		
 	}
 

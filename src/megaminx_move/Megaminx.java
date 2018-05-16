@@ -74,7 +74,8 @@ public class Megaminx {
 	}
 	
 	public static void printCube(int[][] cube) {
-		int i,j,faces[] = {0};
+		int i,j;
+		//int faces[] = {0}
 		//System.out.println("Fitness : "+ Megaminx.fitness_cal(cube,faces));
 		System.out.print("\\\t");
 		for(j=0;j<10;j++)
