@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -27,6 +28,7 @@ public class Solver2 extends JFrame {
 	private Graphics ScreenGraphic;
 	private Image Background;	
 	private int SCREEN_WIDTH, SCREEN_HEIGHT;
+	private Point lastPoint;
 	
 	Color[] colors = new Color[13];
 	JButton[] button = new JButton[13];
@@ -76,14 +78,16 @@ public class Solver2 extends JFrame {
 					direction = 0;
 					return;
 				}
+				lastPoint = me.getPoint();
+//				System.out.println(lastPoint);
 				for(int i=1;i<=12;i++) {
-					if(center[i].contains(me.getPoint())) {
+					if(center[i].contains(lastPoint)) {
 						rotateCube(direction*i);
 						System.out.print(direction*i+" ");
 						break;
 					}
 				}
-				
+				repaint();
 			}
 		};
 		getContentPane().setBackground(Color.WHITE);
@@ -131,6 +135,8 @@ public class Solver2 extends JFrame {
 			g2.setStroke(new BasicStroke(5));
 			g2.drawPolygon(frames[i]);
 		}
+		if(lastPoint!=null)
+			g.drawOval(lastPoint.x, lastPoint.y, 10, 10);
 		// this.repaint();
 	}
 
