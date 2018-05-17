@@ -1,6 +1,7 @@
 package megaminx_gui;
 
 import java.awt.BasicStroke;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -43,7 +44,8 @@ public class Solver2 extends JFrame {
 		System.arraycopy(cube, 0, this.cube, 0, cube.length);
 		this.SCREEN_WIDTH = SCREEN_WIDTH;
 		this.SCREEN_HEIGHT = SCREEN_HEIGHT;
-		this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
+		setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
+		
 		init_cube(RADIUS,0.4);
 		
 		Background = new ImageIcon(Inter.class.getResource("../images/Background.png")).getImage();
@@ -60,6 +62,7 @@ public class Solver2 extends JFrame {
 				return new Dimension(SCREEN_WIDTH,SCREEN_HEIGHT);
 			}
 		};
+
 		MouseAdapter ma = new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent me) {
@@ -83,10 +86,13 @@ public class Solver2 extends JFrame {
 				
 			}
 		};
-		p.setBounds(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+		getContentPane().setBackground(Color.WHITE);
+//		getContentPane().setLayout(mgr);
+		p.setBackground(Color.BLACK);
+		p.setBounds(100, 100, SCREEN_WIDTH, SCREEN_HEIGHT);
 		p.setSize(new Dimension(SCREEN_WIDTH,SCREEN_HEIGHT));
 		p.addMouseListener(ma);
-		add(p);
+		add(p,BorderLayout.CENTER);
 		pack();
 		setVisible(true);
 	}
