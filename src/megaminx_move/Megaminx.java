@@ -67,7 +67,7 @@ public class Megaminx {
 		cube = Megaminx.rotate(cube, faces);
 		for(i=1;i<=12;i++) {
 			for(j=0;j<10;j++) {
-				if(cube[i][j]!=i) fitness++;
+				if(cube[i][j]!=cube[i][10]) fitness++;
 			}
 		}
 		return fitness;
