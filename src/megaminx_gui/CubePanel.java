@@ -1,6 +1,9 @@
 package megaminx_gui;
 
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 
 import javax.swing.*;
 
@@ -17,17 +20,49 @@ public class CubePanel extends JPanel{
 	private Polygon center[] = new Polygon[13];
 	private Polygon blocks[][] = new Polygon[13][10];
 	
+	private BufferedImage frame_image;
+	
+	private int frame_img_x, frame_img_y;
+	
 	public CubePanel(int radius) {
 		setLayout(new BorderLayout());
 		setBackground(Color.WHITE);
 		init_Polygons(radius,0.4);
-		repaint();
+		
+		addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				super.mouseClicked(e);
+				int btn = e.getButton();
+				int direction;
+				switch(btn) {
+				case MouseEvent.BUTTON1:
+					direction = 1;
+					break;
+				case MouseEvent.BUTTON3:
+					direction = -1;
+					break;
+				default : 
+					direction = 0;
+					return;
+				}
+				Point clickPoint = e.getPoint();
+				for(int i=1;i<=12;i++) {
+					if(center[i].contains(clickPoint)) {
+						rotateCube(direction*i);
+						System.out.print(direction*i+" ");
+						break;
+					}
+				}
+			}
+		});
 	}
 	
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		drawCube(g);
+		
 	}
 	
 	public void setCube(int [][] cube) {
@@ -37,7 +72,7 @@ public class CubePanel extends JPanel{
 	public void rotateCube(int face) {
 		int[] faces = {face};
 		cube = Megaminx.rotate(cube, faces);
-		this.repaint();
+		repaint();
 	}
 	
 	public void drawCube(Graphics g) {
@@ -51,13 +86,21 @@ public class CubePanel extends JPanel{
 			}
 		}
 		
+		if(frame_image==null) {
+			frame_image = new BufferedImage(frame_img_x,frame_img_y,BufferedImage.TYPE_INT_ARGB);
+			Graphics frame_graphic =  frame_image.getGraphics();
+			drawFrame(frame_graphic);
+		}
+		g.drawImage(frame_image, 0, 0, null);
+	}
+	
+	public void drawFrame(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setColor(colors[0]);
 		for (int i = 1; i <= 12; i++) {
 			g2.setStroke(new BasicStroke(3));
 			for (int j = 0; j < 10; j++)
 				g2.drawPolygon(blocks[i][j]);
-
 			g2.setStroke(new BasicStroke(5));
 			g2.drawPolygon(frames[i]);
 		}
@@ -92,10 +135,14 @@ public class CubePanel extends JPanel{
 		int R = (int) (2 * radius * Math.cos(Math.PI / 5));
 		int r = (int) (radius * ratio);
 		
+		frame_img_x = (int)((5*R+2*radius)*Math.sin(3 * Math.PI / 5)+20);
+		frame_img_y = (int)((R+radius)*Math.cos(Math.PI/5)+R+radius+20);
+		
 		ratio = ((1-p)+ratio*(1+p))/2;
-		int centerX = (int) (2 * R);
-		int centerY = (int) (2 * R);
-
+		int centerX = (int) ((R +radius)*Math.sin(3 * Math.PI / 5)+10);
+		int centerY = (int) (R+radius+10);
+		
+		
 		int i, j;
 
 		for (j = 0; j < 5; j++) {
@@ -167,6 +214,7 @@ public class CubePanel extends JPanel{
 				blocks[i][2 * j + 1].addPoint(in_coord[i][0][j], in_coord[i][1][j]);
 			}
 		}
+
 	}
 	
 }

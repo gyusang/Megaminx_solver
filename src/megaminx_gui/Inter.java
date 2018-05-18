@@ -28,9 +28,10 @@ public class Inter {
 		frame.setLayout(new BorderLayout());
 		CubePanel cubeGraphic = new CubePanel(RADIUS);
 		cubeGraphic.setCube(cube);
-		frame.add(cubeGraphic,BorderLayout.CENTER);
+		cubeGraphic.setBounds(100,100,700,600);
+		frame.add(BorderLayout.CENTER,cubeGraphic);
 		frame.setVisible(true);
-		for(int i=0;true;i++)
+		for(int i=0;i<=13*60*5000;i++)
 		cubeGraphic.rotateCube(i%13);
 	}
 
