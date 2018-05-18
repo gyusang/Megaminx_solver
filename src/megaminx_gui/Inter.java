@@ -2,10 +2,9 @@ package megaminx_gui;
 
 import java.util.Random;
 
+//import javax.swing.SwingUtilities;
+
 public class Inter {
-	
-//	public static final int SCREEN_WIDTH = 1280;
-//	public static final int SCREEN_HEIGHT = 720;
 	public static final int RADIUS = 100;
 	
 	public static void main(String[] args) {
@@ -21,6 +20,14 @@ public class Inter {
 			i++;
 		}
 		System.out.println();
+		
+//		SwingUtilities.invokeLater(new Runnable(){
+//            public void run()
+//            {
+//            	new Solver2(RADIUS);
+//            }
+//        });
+		
 		Solver2 slv = new Solver2(RADIUS);
 		slv.rotateCube(moves);
 	}

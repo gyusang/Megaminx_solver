@@ -38,18 +38,14 @@ public class CubePanel extends JPanel{
 	private Polygon blocks[][] = new Polygon[13][10];
 	
 	private BufferedImage frame_image;
-	private BufferedImage background_image;
 	
 	private int frame_img_x, frame_img_y;
 	
 	public CubePanel(int radius) {
 		setLayout(new BorderLayout());
-		setBackground(Color.WHITE);
 		init_Polygons(radius,0.4);
 		setPreferredSize(new Dimension(frame_img_x,frame_img_y));
-		setMinimumSize(new Dimension(frame_img_x,frame_img_y));
-		setMaximumSize(new Dimension(frame_img_x,frame_img_y));
-		
+		setOpaque(false);
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -78,19 +74,12 @@ public class CubePanel extends JPanel{
 				}
 			}
 		});
-		
-		try {
-		background_image = ImageIO.read(getClass().getResource("../images/Background.png"));
-		} catch(IOException e) {
-			System.out.println("Background Image Missing");
-		}
 	}
 	
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		drawCube(g);
-		
 	}
 	
 	public void setCube(int [][] cube) {
@@ -108,8 +97,8 @@ public class CubePanel extends JPanel{
 	}
 	
 	public void drawCube(Graphics g) {
-		if(background_image!=null)
-			g.drawImage(background_image, 0, 0, null);
+//		if(background_image!=null)
+//			g.drawImage(background_image, 0, 0, null);
 		for (int i = 1; i <= 12; i++) {
 			g.setColor(colors[cube[i][10]]);
 			g.fillPolygon(center[i]);

@@ -2,6 +2,7 @@ package megaminx_gui;
 
 import java.awt.*;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class Solver2 extends JFrame {
@@ -14,18 +15,27 @@ public class Solver2 extends JFrame {
 	
 	public Solver2(final int RADIUS) {
 		super("Megaminx Solver v1 by MolotovCocktail and Sanggyu Lee");
-//		setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
-//		setMaximumSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
-//		setMinimumSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
-//		setResizable(false);
-		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		getContentPane().setBackground(Color.GREEN);
 		setLayout(new BorderLayout());
-		setBackground(Color.GREEN);
 		cubeGraphic = new CubePanel(RADIUS);
-		add(BorderLayout.CENTER,cubeGraphic);
+		getContentPane().add(cubeGraphic,BorderLayout.CENTER);
+		JPanel controlPanel = new JPanel();
+		controlPanel.setPreferredSize(new Dimension(300,500));
+		controlPanel.setOpaque(false);
+		getContentPane().add(controlPanel, BorderLayout.LINE_END);
+		JPanel infoPanel = new JPanel();
+		infoPanel.setPreferredSize(new Dimension(1000,200));
+		infoPanel.setOpaque(false);
+		getContentPane().add(infoPanel, BorderLayout.PAGE_END);
+		
 		pack();
+//		setPreferredSize(getSize());
+//		setMinimumSize(getSize());
+//		setMaximumSize(getSize());
+//		setResizable(false);
 		setLocationRelativeTo(null);
+		
 		setVisible(true);
 	}
 
