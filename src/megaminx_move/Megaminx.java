@@ -78,12 +78,12 @@ public class Megaminx {
 		//int faces[] = {0}
 		//System.out.println("Fitness : "+ Megaminx.fitness_cal(cube,faces));
 		System.out.print("\\\t");
-		for(j=0;j<10;j++)
+		for(j=0;j<=10;j++)
 			System.out.print(cube[0][j]+"\t");
 		System.out.println();
 		for(i=1;i<=12;i++) {
 			System.out.print(i+"\t");
-			for(j=0;j<10;j++) {
+			for(j=0;j<=10;j++) {
 				System.out.print(cube[i][j]+"\t");
 			}
 			System.out.println();

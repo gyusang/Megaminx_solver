@@ -16,13 +16,13 @@ public class App {
 
 		int i,j;
 		int[] moves = new int[20];
-		int[][] cube = new int [13][10];
+		int[][] cube = new int [13][11];
 		Random generator = new Random();
 
-		for(j=0;j<10;j++)
+		for(j=0;j<=10;j++)
 			cube[0][j] = j;
 		for(i=1;i<=12;i++)
-			for(j=0;j<10;j++)
+			for(j=0;j<=10;j++)
 				cube[i][j] = i;
 		
 		System.out.print("rotations : ");
@@ -40,8 +40,8 @@ public class App {
 			System.out.print(+solver.fitness[i]+" ");
 		
 		System.out.println();
-		Solver2 slv = new Solver2(SCREEN_WIDTH,SCREEN_HEIGHT,RADIUS,cube);
-		slv.updateCube(cube);
+		Solver2 slv = new Solver2(RADIUS);
+		slv.setCube(cube);
 /*
   		int fit,cnt=0;
   		int[] faces = {0};
