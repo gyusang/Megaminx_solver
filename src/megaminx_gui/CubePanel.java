@@ -4,9 +4,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import megaminx_move.Megaminx;
@@ -37,15 +35,22 @@ public class CubePanel extends JPanel{
 	private Polygon center[] = new Polygon[13];
 	private Polygon blocks[][] = new Polygon[13][10];
 	
+	private JLabel centerNumber[] = new JLabel[13];
+	
 	private BufferedImage frame_image;
 	
 	private int frame_img_x, frame_img_y;
 	
 	public CubePanel(int radius) {
-		setLayout(new BorderLayout());
+		setLayout(null);
 		init_Polygons(radius,0.4);
 		setPreferredSize(new Dimension(frame_img_x,frame_img_y));
 		setOpaque(false);
+		for(int i=1;i<=12;i++) {
+			add(centerNumber[i]);
+			Dimension size = centerNumber[i].getPreferredSize();
+			centerNumber[i].setBounds(centerPoints[i].x-size.width/2,centerPoints[i].y-size.height/2,size.width,size.height);
+		}
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -68,7 +73,7 @@ public class CubePanel extends JPanel{
 				for(int i=1;i<=12;i++) {
 					if(center[i].contains(clickPoint)) {
 						rotateCube(direction*i);
-						System.out.print(direction*i+" ");
+//						System.out.print(direction*i+" ");
 						break;
 					}
 				}
@@ -78,8 +83,9 @@ public class CubePanel extends JPanel{
 	
 	@Override
 	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
+		
 		drawCube(g);
+		super.paintComponent(g);
 	}
 	
 	public void setCube(int [][] cube) {
@@ -244,6 +250,10 @@ public class CubePanel extends JPanel{
 					blocks[i][2 * j + 1].addPoint(out_coord[i][0][(3 * j + k) % 15], out_coord[i][1][(3 * j + k) % 15]);
 				blocks[i][2 * j + 1].addPoint(in_coord[i][0][j], in_coord[i][1][j]);
 			}
+		}
+	
+		for(i=1;i<=12;i++) {
+			centerNumber[i] = new JLabel(Integer.toString(i));
 		}
 	}
 	

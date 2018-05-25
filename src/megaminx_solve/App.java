@@ -7,8 +7,6 @@ import java.util.Random;
 public class App {
 
 	public static void main(String[] args) {
-		final int SCREEN_WIDTH = 1280;
-		final int SCREEN_HEIGHT = 720;
 		final int RADIUS = 100;
 		
 		int N=100; //number of chromosome
