@@ -14,7 +14,7 @@ public class Inter {
 		SwingUtilities.invokeLater(new Runnable(){
             public void run()
             {
-            	new Solver2(RADIUS);
+            	new SolverFrame(RADIUS);
             }
         });
 		

@@ -1,6 +1,6 @@
 package megaminx_solve;
 import megaminx_move.Megaminx;
-import megaminx_gui.Solver2;
+import megaminx_gui.SolverFrame;
 import java.util.Random;
 
 
@@ -38,7 +38,7 @@ public class App {
 			System.out.print(+solver.fitness[i]+" ");
 		
 		System.out.println();
-		Solver2 slv = new Solver2(RADIUS);
+		SolverFrame slv = new SolverFrame(RADIUS);
 		slv.setCube(cube);
 /*
   		int fit,cnt=0;

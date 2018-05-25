@@ -31,11 +31,13 @@ public class ControlPanel extends JPanel{
 	
 	private Random generator;
 	
+	private final int N = 30;
+	
 	public ControlPanel(CubePanel cubeGraphic, InfoPanel info) {
 		generator = new Random();
 		this.cubeGraphic = cubeGraphic;
 		this.info = info;
-		setPreferredSize(new Dimension(305,500));
+//		setPreferredSize(new Dimension(305,500));
 		setOpaque(false);
 		setLayout(new BoxLayout(this,BoxLayout.PAGE_AXIS));
 		JButton reset = new JButton("RESET");
@@ -51,9 +53,10 @@ public class ControlPanel extends JPanel{
 		mix.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int[] moves = new int[30];
+				cubeGraphic.setCube(ControlPanel.cube);
+				int[] moves = new int[N];
 				String seq = "";
-				for(int i=0;i<30;) {
+				for(int i=0;i<N;) {
 					moves[i] = generator.nextInt(25)-12;
 					if(moves[i]==0) continue;
 					else if(i>0) {
@@ -67,12 +70,23 @@ public class ControlPanel extends JPanel{
 				info.setSeq(seq);
 			}
 		});
+		solve.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				info.setSolving("Solver starting...");
+//				new Megaminx()
+				setVisible(true);
+				info.setSolving("Solver finished.");
+			}
+		});
 		reset.setMnemonic('r');
 		mix.setMnemonic('m');
 		solve.setMnemonic('s');
 		add(reset);
 		add(mix);
 		add(solve);
+		add(Box.createRigidArea(new Dimension(50,50)));
 	}
 	
 	

@@ -74,7 +74,7 @@ public class CubePanel extends JPanel{
 				for(int i=1;i<=12;i++) {
 					if(center[i].contains(clickPoint)) {
 						rotateCube(direction*i);
-//						System.out.print(direction*i+" ");
+						System.out.print(direction*i+" ");
 						break;
 					}
 				}
@@ -86,6 +86,10 @@ public class CubePanel extends JPanel{
 	public void paintComponent(Graphics g) {
 		drawCube(g);
 		super.paintComponent(g);
+	}
+	
+	public int [][] getCube() {
+		return cube;
 	}
 	
 	public void setCube(int [][] cube) {
