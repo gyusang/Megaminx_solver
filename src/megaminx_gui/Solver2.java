@@ -2,10 +2,13 @@ package megaminx_gui;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+
+import java.net.URL;
 
 public class Solver2 extends JFrame {
 	
@@ -19,29 +22,32 @@ public class Solver2 extends JFrame {
 		super("Megaminx Solver v1 by MolotovCocktail and Sanggyu Lee");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
-		BufferedImage img=null;
-		try {
-		img = ImageIO.read(Solver2.class.getResource("../images/Background.png"));
-		} catch (IOException e) {
-			e.printStackTrace();
-			getContentPane().setBackground(Color.WHITE);
-		}
-		if(img!=null) {
-			setContentPane(new JLabel(new ImageIcon(img)));
-		}
+
+		
 		setLayout(new BorderLayout());
 		cubeGraphic = new CubePanel(RADIUS);
 		getContentPane().add(cubeGraphic,BorderLayout.CENTER);
-		JPanel controlPanel = new JPanel();
-		controlPanel.setPreferredSize(new Dimension(305,500));
-		controlPanel.setOpaque(false);
-		getContentPane().add(controlPanel, BorderLayout.LINE_END);
-		JPanel infoPanel = new JPanel();
-		infoPanel.setPreferredSize(new Dimension(1000,198));
-		infoPanel.setOpaque(false);
-		getContentPane().add(infoPanel, BorderLayout.PAGE_END);
+		InfoPanel info = new InfoPanel();
+		getContentPane().add(info, BorderLayout.PAGE_END);
+		ControlPanel control = new ControlPanel(cubeGraphic,info);
+		getContentPane().add(control, BorderLayout.LINE_END);
 		
-		setSize(1280,742);
+		pack();
+		BufferedImage img=null;
+		URL url = Solver2.class.getResource("../images/Background.png");
+		if(url!=null) {
+			try{
+				img = ImageIO.read(url);
+			} catch(IOException e) {
+				e.printStackTrace();
+			}
+			setContentPane(new JLabel(new ImageIcon(img.getScaledInstance(getSize().width,getSize().height, Image.SCALE_SMOOTH))));
+			getContentPane().add(cubeGraphic,BorderLayout.CENTER);
+			getContentPane().add(info, BorderLayout.PAGE_END);
+			getContentPane().add(control, BorderLayout.LINE_END);
+		} else {
+			getContentPane().setBackground(Color.WHITE);
+		}
 		setPreferredSize(getSize());
 		setMinimumSize(getSize());
 		setMaximumSize(getSize());
@@ -49,7 +55,6 @@ public class Solver2 extends JFrame {
 		setLocationRelativeTo(null);
 		
 		setVisible(true);
-		System.out.println(getSize());
 	}
 
 	public void setCube(int[][] cube) {

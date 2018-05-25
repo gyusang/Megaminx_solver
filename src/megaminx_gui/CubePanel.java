@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.util.Arrays;
 
 import javax.swing.*;
 
@@ -83,13 +84,15 @@ public class CubePanel extends JPanel{
 	
 	@Override
 	public void paintComponent(Graphics g) {
-		
 		drawCube(g);
 		super.paintComponent(g);
 	}
 	
 	public void setCube(int [][] cube) {
-		this.cube = cube;
+		for(int i=1;i<=12;i++) {
+			this.cube[i] = Arrays.copyOf(cube[i], 11);
+		}
+		repaint();
 	}
 	
 	public void rotateCube(int []faces) {
