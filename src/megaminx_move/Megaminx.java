@@ -1,5 +1,7 @@
 package megaminx_move;
 
+import java.util.Arrays;
+
 public class Megaminx {
 	static final int [][][] PERMS = { //numbered as R : permutations package, Robin K. S. Hankin
 			//Face 0 Nothing
@@ -30,7 +32,11 @@ public class Megaminx {
 			{{73,85,97,109,111},{74,86,98,100,112},{75,87,99,101,113},{120,122,124,126,128},{121,123,125,127,129}}
 	};
 	public static int[][] rotate(int[][] cube,int[] faces) {
-		int[][]new_cube = new int[13][10];
+		int[][] return_cube = new int [13][11];
+		for(int i=0;i<=12;i++) {
+			return_cube[i] = Arrays.copyOf(cube[i], 11);
+		}
+		int[][] new_cube = new int[13][10];
 		int direction,cur_face,before,after;
 		int i,j,k;
 		for(i=0;i<faces.length;i++){
@@ -47,26 +53,28 @@ public class Megaminx {
 				for(k=0;k<5;k++) {
 					before = PERMS[cur_face][j][(k+5-direction)%5];
 					after = PERMS[cur_face][j][k];
-					new_cube[after/10][after%10]=cube[before/10][before%10];
+					new_cube[after/10][after%10]=return_cube[before/10][before%10];
 				}
 			}
 			for(j=0;j<5;j++) {
 				for(k=0;k<5;k++) {
 					after = PERMS[cur_face][j][k];
-					cube[after/10][after%10]=new_cube[after/10][after%10];
+					return_cube[after/10][after%10]=new_cube[after/10][after%10];
 				}
 			}
-			//Megaminx.printCube(cube);
 		}
-		return cube;
+		return return_cube;
 	}
 	
 	public static int fitness_cal(int[][] cube, int[] faces) {
-		int fitness = 0;
-		int i,j;
 		cube = Megaminx.rotate(cube, faces);
-		for(i=1;i<=12;i++) {
-			for(j=0;j<10;j++) {
+		return fitness_cal(cube);
+	}
+	
+	public static int fitness_cal(int[][] cube) {
+		int fitness = 0;
+		for(int i=1;i<=12;i++) {
+			for(int j=0;j<10;j++) {
 				if(cube[i][j]!=cube[i][10]) fitness++;
 			}
 		}

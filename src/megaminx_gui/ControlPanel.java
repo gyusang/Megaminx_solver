@@ -7,6 +7,8 @@ import java.util.Random;
 
 import javax.swing.*;
 
+import megaminx_solve.Solver;
+
 public class ControlPanel extends JPanel{
 	private static final long serialVersionUID = 20L;
 	
@@ -26,12 +28,18 @@ public class ControlPanel extends JPanel{
 			{12,12,12,12,12,12,12,12,12,12,12}
 	};
 	
-	CubePanel cubeGraphic;
-	InfoPanel info;
+	public CubePanel cubeGraphic;
+	public InfoPanel info;
 	
 	private Random generator;
 	
 	private final int N = 30;
+	private final int L = 100;
+	private boolean nowSolving = false;
+	
+	private JButton reset,mix,solve;
+	
+	private SolverTask solver;
 	
 	public ControlPanel(CubePanel cubeGraphic, InfoPanel info) {
 		generator = new Random();
@@ -40,9 +48,9 @@ public class ControlPanel extends JPanel{
 //		setPreferredSize(new Dimension(305,500));
 		setOpaque(false);
 		setLayout(new BoxLayout(this,BoxLayout.PAGE_AXIS));
-		JButton reset = new JButton("RESET");
-		JButton mix = new JButton("MIX");
-		JButton solve = new JButton("SOLVE");
+		reset = new JButton("RESET");
+		mix = new JButton("MIX");
+		solve = new JButton("SOLVE");
 		reset.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -54,9 +62,9 @@ public class ControlPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				cubeGraphic.setCube(ControlPanel.cube);
-				int[] moves = new int[N];
+				int[] moves = new int[30];
 				String seq = "";
-				for(int i=0;i<N;) {
+				for(int i=0;i<moves.length;) {
 					moves[i] = generator.nextInt(25)-12;
 					if(moves[i]==0) continue;
 					else if(i>0) {
@@ -70,24 +78,55 @@ public class ControlPanel extends JPanel{
 				info.setSeq(seq);
 			}
 		});
-		solve.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				setVisible(false);
-				info.setSolving("Solver starting...");
-//				new Megaminx()
-				setVisible(true);
-				info.setSolving("Solver finished.");
-			}
-		});
-		reset.setMnemonic('r');
-		mix.setMnemonic('m');
-		solve.setMnemonic('s');
+		solve.addActionListener(new SolverListener());
+		reset.setMnemonic('R');
+		mix.setMnemonic('M');
+		solve.setMnemonic('S');
 		add(reset);
 		add(mix);
 		add(solve);
 		add(Box.createRigidArea(new Dimension(50,50)));
 	}
 	
+	private class SolverListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if(!nowSolving) {
+			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+			cubeGraphic.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+			nowSolving=true;
+			cubeGraphic.cube_Available=false;
+			mix.setEnabled(false);
+			reset.setEnabled(false);
+			solve.setText("CANCEL");
+			info.setSolving("Solving...");
+			solver = new SolverTask();
+			solver.execute();
+			} else {
+				solver.cancel(true);//TODO add management
+				info.setSolving("CANCELED");
+			}
+			
+		}
+	}
+	
+	private class SolverTask extends SwingWorker<Void,Void> {
+		@Override
+		public Void doInBackground() {
+			new Solver(N,L,ControlPanel.this);
+			return null;
+		}
+		
+		@Override
+		public void done() {
+			setCursor(null);
+			cubeGraphic.setCursor(null);
+			nowSolving=false;
+			mix.setEnabled(true);
+			reset.setEnabled(true);
+			solve.setText("SOLVE");
+			cubeGraphic.cube_Available=true;
+		}
+	}
 	
 }

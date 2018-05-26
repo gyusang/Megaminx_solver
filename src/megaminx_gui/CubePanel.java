@@ -10,127 +10,124 @@ import javax.swing.*;
 
 import megaminx_move.Megaminx;
 
-public class CubePanel extends JPanel{
+public class CubePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
-	
-	private int[][] cube = {
-			{0,1,2,3,4,5,6,7,8,9,10},
-			{1,1,1,1,1,1,1,1,1,1,1},
-			{2,2,2,2,2,2,2,2,2,2,2},
-			{3,3,3,3,3,3,3,3,3,3,3},
-			{4,4,4,4,4,4,4,4,4,4,4},
-			{5,5,5,5,5,5,5,5,5,5,5},
-			{6,6,6,6,6,6,6,6,6,6,6},
-			{7,7,7,7,7,7,7,7,7,7,7},
-			{8,8,8,8,8,8,8,8,8,8,8},
-			{9,9,9,9,9,9,9,9,9,9,9},
-			{10,10,10,10,10,10,10,10,10,10,10},
-			{11,11,11,11,11,11,11,11,11,11,11},
-			{12,12,12,12,12,12,12,12,12,12,12}
-	};
-	
+
+	private int[][] cube = { { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }, { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+			{ 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 }, { 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3 },
+			{ 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4 }, { 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5 },
+			{ 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6 }, { 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7 },
+			{ 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8 }, { 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9 },
+			{ 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10 }, { 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11 },
+			{ 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12 } };
+
 	protected Color[] colors = new Color[13];
 
 	private Point centerPoints[] = new Point[13];
 	private Polygon frames[] = new Polygon[13];
 	private Polygon center[] = new Polygon[13];
 	private Polygon blocks[][] = new Polygon[13][10];
-	
+
 	private JLabel centerNumber[] = new JLabel[13];
-	
+
 	private BufferedImage frame_image;
-	
+
 	private int frame_img_x, frame_img_y;
 	
+	public boolean cube_Available=true;
+
 	public CubePanel(int radius) {
 		setLayout(null);
-		init_Polygons(radius,0.4);
-		setPreferredSize(new Dimension(frame_img_x,frame_img_y));
+		init_Polygons(radius, 0.4);
+		setPreferredSize(new Dimension(frame_img_x, frame_img_y));
 		setOpaque(false);
-		for(int i=1;i<=12;i++) {
+		for (int i = 1; i <= 12; i++) {
 			add(centerNumber[i]);
 			Dimension size = centerNumber[i].getPreferredSize();
-			centerNumber[i].setBounds(centerPoints[i].x-size.width/2,centerPoints[i].y-size.height/2,size.width,size.height);
+			centerNumber[i].setBounds(centerPoints[i].x - size.width / 2, centerPoints[i].y - size.height / 2,
+					size.width, size.height);
 		}
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				super.mouseClicked(e);
-				int btn = e.getButton();
-				int direction;
-				switch(btn) {
-				case MouseEvent.BUTTON1:
-					direction = 1;
-					break;
-				case MouseEvent.BUTTON3:
-					direction = -1;
-					break;
-				default : 
-					direction = 0;
-					return;
-				}
-				Point clickPoint = e.getPoint();
-//				System.out.println(clickPoint);
-				for(int i=1;i<=12;i++) {
-					if(center[i].contains(clickPoint)) {
-						rotateCube(direction*i);
-						System.out.print(direction*i+" ");
+				if (cube_Available) {
+					int btn = e.getButton();
+					int direction;
+					switch (btn) {
+					case MouseEvent.BUTTON1:
+						direction = 1;
 						break;
+					case MouseEvent.BUTTON3:
+						direction = -1;
+						break;
+					default:
+						direction = 0;
+						return;
+					}
+					Point clickPoint = e.getPoint();
+					// System.out.println(clickPoint);
+					for (int i = 1; i <= 12; i++) {
+						if (center[i].contains(clickPoint)) {
+							rotateCube(direction * i);
+							System.out.print(direction * i + " ");
+							break;
+						}
 					}
 				}
 			}
 		});
 	}
-	
+
 	@Override
 	public void paintComponent(Graphics g) {
 		drawCube(g);
 		super.paintComponent(g);
 	}
-	
-	public int [][] getCube() {
+
+	public int[][] getCube() {
 		return cube;
 	}
-	
-	public void setCube(int [][] cube) {
-		for(int i=1;i<=12;i++) {
+
+	public void setCube(int[][] cube) {
+		for (int i = 1; i <= 12; i++) {
 			this.cube[i] = Arrays.copyOf(cube[i], 11);
 		}
 		repaint();
 	}
-	
-	public void rotateCube(int []faces) {
+
+	public void rotateCube(int[] faces) {
 		cube = Megaminx.rotate(cube, faces);
 		repaint();
 	}
-	
+
 	public void rotateCube(int face) {
-		int[] faces = {face};
+		int[] faces = { face };
 		rotateCube(faces);
 	}
-	
+
 	public void drawCube(Graphics g) {
-//		if(background_image!=null)
-//			g.drawImage(background_image, 0, 0, null);
+		// if(background_image!=null)
+		// g.drawImage(background_image, 0, 0, null);
 		for (int i = 1; i <= 12; i++) {
 			g.setColor(colors[cube[i][10]]);
 			g.fillPolygon(center[i]);
 			g.setColor(colors[0]);
-			//TODO write text
+			// TODO write text
 			for (int j = 0; j < 10; j++) {
 				g.setColor(colors[(cube[i][j])]);
 				g.fillPolygon(blocks[i][j]);
 			}
 		}
-		
-		if(frame_image==null) {
-			frame_image = new BufferedImage(frame_img_x,frame_img_y,BufferedImage.TYPE_INT_ARGB);
-			Graphics frame_graphic =  frame_image.getGraphics();
+
+		if (frame_image == null) {
+			frame_image = new BufferedImage(frame_img_x, frame_img_y, BufferedImage.TYPE_INT_ARGB);
+			Graphics frame_graphic = frame_image.getGraphics();
 			drawFrame(frame_graphic);
 		}
 		g.drawImage(frame_image, 0, 0, null);
 	}
-	
+
 	public void drawFrame(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setColor(colors[0]);
@@ -142,19 +139,20 @@ public class CubePanel extends JPanel{
 			g2.drawPolygon(frames[i]);
 		}
 	}
-	
+
 	private void init_Polygons(int radius, double ratio) {
 		int[][][] in_coord = new int[13][2][5]; // (face no. 1 to 12) (x or y => x:0, y:1) (five coords)
 		int[][][] out_coord = new int[13][2][15];
 		int diff[] = { 0, 4, 3, 4, 0, 1, 2, 4, 0, 1, 2, 3, 2 };
-		
-		double p = Math.tan(Math.PI*3/10)/Math.tan(Math.PI*2/5);
+
+		double p = Math.tan(Math.PI * 3 / 10) / Math.tan(Math.PI * 2 / 5);
 		if (ratio > 1)
 			ratio = 1;
-		else if (ratio < p/(1+p))
-			ratio = (int)Math.round(p/(1+p));
-		
-		// Black White Purple DarkYellow DarkBlue Red DarkGreen LightGreen Orange LightBlue LightYellow Pink Gray
+		else if (ratio < p / (1 + p))
+			ratio = (int) Math.round(p / (1 + p));
+
+		// Black White Purple DarkYellow DarkBlue Red DarkGreen LightGreen Orange
+		// LightBlue LightYellow Pink Gray
 		colors[0] = new Color(0, 0, 0);
 		colors[1] = new Color(255, 255, 255);
 		colors[2] = new Color(210, 0, 255);
@@ -171,15 +169,14 @@ public class CubePanel extends JPanel{
 
 		int R = (int) (2 * radius * Math.cos(Math.PI / 5));
 		int r = (int) (radius * ratio);
-		
-		frame_img_x = (int)((5*R+2*radius)*Math.sin(3 * Math.PI / 5)+20);
-		frame_img_y = (int)((R+radius)*Math.cos(Math.PI/5)+R+radius+20);
-		
-		ratio = ((1-p)+ratio*(1+p))/2;
-		int centerX = (int) ((R +radius)*Math.sin(3 * Math.PI / 5)+10);
-		int centerY = (int) (R+radius+10);
-		
-		
+
+		frame_img_x = (int) ((5 * R + 2 * radius) * Math.sin(3 * Math.PI / 5) + 20);
+		frame_img_y = (int) ((R + radius) * Math.cos(Math.PI / 5) + R + radius + 20);
+
+		ratio = ((1 - p) + ratio * (1 + p)) / 2;
+		int centerX = (int) ((R + radius) * Math.sin(3 * Math.PI / 5) + 10);
+		int centerY = (int) (R + radius + 10);
+
 		int i, j;
 
 		for (j = 0; j < 5; j++) {
@@ -188,8 +185,8 @@ public class CubePanel extends JPanel{
 			in_coord[1][0][(j + diff[1]) % 5] = (int) (centerX - r * Math.sin(2 * j * Math.PI / 5));
 			in_coord[1][1][(j + diff[1]) % 5] = (int) (centerY + r * Math.cos(2 * j * Math.PI / 5));
 		}
-		
-		centerPoints[1] = new Point(centerX,centerY);
+
+		centerPoints[1] = new Point(centerX, centerY);
 
 		for (i = 0; i < 5; i++) {
 			for (j = 0; j < 5; j++) {
@@ -202,7 +199,8 @@ public class CubePanel extends JPanel{
 				in_coord[6 - i][1][(5 - j + diff[6 - i]) % 5] = (int) (centerY - R * Math.cos(2 * i * Math.PI / 5)
 						- r * Math.cos(2 * (i + j) * Math.PI / 5));
 			}
-			centerPoints[6-i] = new Point((int)(centerX - R * Math.sin(2 * i * Math.PI / 5)),(int)(centerY - R * Math.cos(2 * i * Math.PI / 5)));
+			centerPoints[6 - i] = new Point((int) (centerX - R * Math.sin(2 * i * Math.PI / 5)),
+					(int) (centerY - R * Math.cos(2 * i * Math.PI / 5)));
 		}
 
 		centerX += (int) (3 * R * Math.sin(3 * Math.PI / 5));
@@ -213,8 +211,8 @@ public class CubePanel extends JPanel{
 			in_coord[12][0][(5 - j + diff[12]) % 5] = (int) (centerX - r * Math.sin(2 * j * Math.PI / 5));
 			in_coord[12][1][(5 - j + diff[12]) % 5] = (int) (centerY - r * Math.cos(2 * j * Math.PI / 5));
 		}
-		centerPoints[12] = new Point(centerX,centerY);
-		
+		centerPoints[12] = new Point(centerX, centerY);
+
 		for (i = 0; i < 5; i++) {
 			for (j = 0; j < 5; j++) {
 				out_coord[7 + i][0][3 * (j + diff[7 + i]) % 15] = (int) (centerX - R * Math.sin(2 * i * Math.PI / 5)
@@ -226,7 +224,8 @@ public class CubePanel extends JPanel{
 				in_coord[7 + i][1][(j + diff[7 + i]) % 5] = (int) (centerY + R * Math.cos(2 * i * Math.PI / 5)
 						+ r * Math.cos(2 * (i + j) * Math.PI / 5));
 			}
-			centerPoints[7+i] = new Point((int)(centerX - R * Math.sin(2 * i * Math.PI / 5)),(int)(centerY + R * Math.cos(2 * i * Math.PI / 5)));
+			centerPoints[7 + i] = new Point((int) (centerX - R * Math.sin(2 * i * Math.PI / 5)),
+					(int) (centerY + R * Math.cos(2 * i * Math.PI / 5)));
 		}
 
 		for (i = 1; i <= 12; i++) {
@@ -258,11 +257,10 @@ public class CubePanel extends JPanel{
 				blocks[i][2 * j + 1].addPoint(in_coord[i][0][j], in_coord[i][1][j]);
 			}
 		}
-	
-		for(i=1;i<=12;i++) {
+
+		for (i = 1; i <= 12; i++) {
 			centerNumber[i] = new JLabel(Integer.toString(i));
 		}
 	}
-	
-}
 
+}
