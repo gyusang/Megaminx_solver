@@ -65,13 +65,12 @@ public class Solver {
 	
 	public void solve() {
 		try {
-			for(int i=0;i<=12*10;i++) {
+			for(int i=0;i<=12*60;i++) {
 				control.cubeGraphic.rotateCube(i%12+1);
-				Thread.sleep(100);
+				Thread.sleep(10);
 			}
 			control.cubeGraphic.setCube(solved_cube);
-			control.info.setSolving("DONE"
-					);
+			control.info.setSolving("DONE");
 		} catch (InterruptedException e) { }
 	}
 
