@@ -85,8 +85,10 @@ public class CubePanel extends JPanel {
 		super.paintComponent(g);
 	}
 
-	public int[][] getCube() {
-		return cube;
+	public void getCube(int[][] rtn) {
+		for (int i = 1; i <= 12; i++) {
+			rtn[i] = Arrays.copyOf(cube[i], 11);
+		}
 	}
 
 	public void setCube(int[][] cube) {
