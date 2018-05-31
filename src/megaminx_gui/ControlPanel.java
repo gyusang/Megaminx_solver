@@ -151,7 +151,8 @@ public class ControlPanel extends JPanel {
 
 		}
 	}
-
+	
+/*
 	private class GASolver extends SwingWorker<int[], int[]> {
 		private int[][] cube;
 		private final int N, L;// N 염색체수, 염색체 길이
@@ -228,6 +229,7 @@ public class ControlPanel extends JPanel {
 			cubeGraphic.cube_Available = true;
 		}
 	}
+*/
 
 	private class SASolver extends SwingWorker<Integer, int[][]> {
 		private final int T, N;// N 염색체수, 염색체 길이
