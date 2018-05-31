@@ -35,6 +35,8 @@ public class ControlPanel extends JPanel {
 	private JButton reset, mix, solve;
 
 	private SASolver solver;
+	
+	private JTextField field_k,field_T,field_N,field_a;
 
 	public ControlPanel(CubePanel cubeGraphic, InfoPanel info) {
 		generator = new Random();
@@ -84,6 +86,19 @@ public class ControlPanel extends JPanel {
 		add(mix);
 		add(solve);
 		add(Box.createRigidArea(new Dimension(50, 50)));
+		add(new JLabel("k,T,N,a"));
+		field_k = new JTextField(20);
+		field_k.setText("1.0");
+		field_T = new JTextField(20);
+		field_T.setText("5000");
+		field_N = new JTextField(20);
+		field_N.setText("100");
+		field_a = new JTextField(20);
+		field_a.setText("0.05");
+		add(field_k);
+		add(field_T);
+		add(field_N);
+		add(field_a);
 	}
 
 	private class SolverListener implements ActionListener {
@@ -96,6 +111,20 @@ public class ControlPanel extends JPanel {
 				return;
 			}
 			if (!nowSolving) {
+				int T,N;
+				double a,k;
+				try {
+					T = Integer.parseInt(field_T.getText());
+					N = Integer.parseInt(field_N.getText());
+					a = Double.parseDouble(field_a.getText());
+					k = Double.parseDouble(field_k.getText());
+				} catch (java.lang.NumberFormatException nfe) {
+					field_k.setText("1.0k");
+					field_T.setText("5000T");
+					field_N.setText("100N");
+					field_a.setText("0.05a");
+					return;
+				}
 				cubeGraphic.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 				nowSolving = true;
 				cubeGraphic.cube_Available = false;
@@ -103,7 +132,7 @@ public class ControlPanel extends JPanel {
 				reset.setEnabled(false);
 				solve.setText("CANCEL");
 				info.setSolving("Solving...");
-				solver = new SASolver(100000, 10, 0.05);
+				solver = new SASolver(T,N,a,k);
 				solver.execute();
 			} else {
 				try {
@@ -203,12 +232,13 @@ public class ControlPanel extends JPanel {
 	private class SASolver extends SwingWorker<Integer, int[][]> {
 		private final int T, N;// N 염색체수, 염색체 길이
 		private final double a;
-		private final double boltzmann = 0.0001;
+		private final double boltzmann;
 
-		public SASolver(int temp, int num, double ratio) {
+		public SASolver(int temp, int num, double ratio, double boltzmann) {
 			this.N = num;
 			this.T = temp;
 			this.a = ratio;
+			this.boltzmann = boltzmann;
 		}
 		
 		private void copyCube(int[][] src, int[][] dest) {
@@ -219,16 +249,17 @@ public class ControlPanel extends JPanel {
 
 		@Override
 		protected Integer doInBackground() {
-			int[][] x,y=new int[13][11];
-			int fit_x, fit_y, delta, cnt = 0;
-			double temp = T;
+			int fit_x;
 			ArrayList<Integer> all_moves = new ArrayList<Integer>();
+			int[][] x,y=new int[13][11];
+			int fit_y, delta, cnt = 0;
+			double temp = T;
 			int move,before = 0;
 			x = cubeGraphic.getCube();
 			fit_x = Megaminx.fitness_cal(x);
 			info.setSolving("Initialized, fitness = "+ fit_x);
 
-			while (fit_x > 0 && temp > 1 && !isCancelled()) {
+			while (fit_x > 0 && temp > 0.1 && !isCancelled()) {
 				
 				for (int j = 0; j < N; j++) {
 					copyCube(x,y);
@@ -241,7 +272,7 @@ public class ControlPanel extends JPanel {
 						fit_x = fit_y;
 						all_moves.add(move);
 						before = move;
-					} else if (Math.pow(Math.E, -delta/(temp*boltzmann))>generator.nextDouble()&&fit_x>15) {
+					} else if (Math.pow(Math.E, -delta/(temp*boltzmann))>generator.nextDouble()) {
 						Megaminx.rotate_save(x, move);
 						fit_x = fit_y;
 						all_moves.add(move);
@@ -250,7 +281,7 @@ public class ControlPanel extends JPanel {
 					if(delta>0) {
 					}
 				}
-				info.setSolving(++cnt + "th run, temperature = " + temp);
+				info.setSolving(++cnt + "th run, temperature = " + temp+", fitness = "+fit_x);
 				publish(x);
 				temp *= 1-a;
 			}

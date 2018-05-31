@@ -19,6 +19,7 @@ public class InfoPanel extends JPanel{
 		add(Box.createRigidArea(new Dimension(1,5)));
 		solving = new JLabel("This is Solver",JLabel.LEFT);
 		add(solving);
+		
 	}
 	
 	public void setSeq(String text) {
