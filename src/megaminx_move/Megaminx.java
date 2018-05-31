@@ -66,8 +66,41 @@ public class Megaminx {
 		return return_cube;
 	}
 	
+	public static void rotate_save(int[][] cube, int face) {
+		int[][] new_cube = new int[13][10];
+		int direction,before,after;
+			if(face>0) {
+				direction=1;
+			} else if(face<0){
+				direction=-1;
+				face = -face;
+			} else {
+				return;
+			}
+			for(int j=0;j<5;j++) {
+				for(int k=0;k<5;k++) {
+					before = PERMS[face][j][(k+5-direction)%5];
+					after = PERMS[face][j][k];
+					new_cube[after/10][after%10]=cube[before/10][before%10];
+				}
+			}
+			for(int j=0;j<5;j++) {
+				for(int k=0;k<5;k++) {
+					after = PERMS[face][j][k];
+					cube[after/10][after%10]=new_cube[after/10][after%10];
+				}
+			}
+	}
+	
 	public static int fitness_cal(int[][] cube, int[] faces) {
-		cube = Megaminx.rotate(cube, faces);
+		return fitness_cal(Megaminx.rotate(cube, faces));
+	}
+	
+	public static int fitness_cal(int[][] cube, int face) {
+		int[] faces = {face};
+		System.out.println("fitness cal with int 1");
+		cube = rotate(cube, faces);
+		System.out.println("fitness cal with int 2");
 		return fitness_cal(cube);
 	}
 	
