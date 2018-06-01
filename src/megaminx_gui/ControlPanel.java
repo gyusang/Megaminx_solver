@@ -287,7 +287,7 @@ public class ControlPanel extends JPanel {
 				publish(x);
 				temp *= 1-a;
 			}
-			return all_moves.size();
+			return fit_x;
 		}
 
 		private int newFace(int before) {
@@ -321,7 +321,7 @@ public class ControlPanel extends JPanel {
 			// for(int i=1;i<moves.length;i++) {
 			// seq = seq +", " + moves[i];
 			// }
-			info.setSolving(length + " moves calculated.");
+			info.setSolving(length + " fitness reached");
 			solve.setText("SOLVE");
 			cubeGraphic.setCursor(null);
 			nowSolving = false;
