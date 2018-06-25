@@ -154,7 +154,6 @@ public class CubePanel extends JPanel {
 			ratio = 1;
 		else if (ratio < p / (1 + p))
 			ratio = (int) Math.round(p / (1 + p));
-
 		// Black White Purple DarkYellow DarkBlue Red DarkGreen LightGreen Orange
 		// LightBlue LightYellow Pink Gray
 		colors[0] = new Color(0, 0, 0);
@@ -177,7 +176,7 @@ public class CubePanel extends JPanel {
 		frame_img_x = (int) ((5 * R + 2 * radius) * Math.sin(3 * Math.PI / 5) + 20);
 		frame_img_y = (int) ((R + radius) * Math.cos(Math.PI / 5) + R + radius + 20);
 
-		ratio = ((1 - p) + ratio * (1 + p)) / 2;
+		double edge_ratio = ((1 - p) + ratio * (1 + p)) / 2;
 		int centerX = (int) ((R + radius) * Math.sin(3 * Math.PI / 5) + 10);
 		int centerY = (int) (R + radius + 10);
 
@@ -235,10 +234,10 @@ public class CubePanel extends JPanel {
 		for (i = 1; i <= 12; i++) {
 			for (j = 0; j < 5; j++) {
 				for (int k = 0; k < 2; k++) {
-					out_coord[i][k][3 * j + 1] = (int) (ratio * out_coord[i][k][3 * j]
-							+ (1 - ratio) * out_coord[i][k][3 * (j + 1) % 15]);
-					out_coord[i][k][3 * j + 2] = (int) ((1 - ratio) * out_coord[i][k][3 * j]
-							+ ratio * out_coord[i][k][3 * (j + 1) % 15]);
+					out_coord[i][k][3 * j + 1] = (int) (edge_ratio * out_coord[i][k][3 * j]
+							+ (1 - edge_ratio) * out_coord[i][k][3 * (j + 1) % 15]);
+					out_coord[i][k][3 * j + 2] = (int) ((1 - edge_ratio) * out_coord[i][k][3 * j]
+							+ edge_ratio * out_coord[i][k][3 * (j + 1) % 15]);
 				}
 			}
 		}
